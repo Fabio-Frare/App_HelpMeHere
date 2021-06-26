@@ -11,6 +11,8 @@
         android:theme="@style/Theme.HelpMeHere">
         <activity android:name=".About"
             android:launchMode="singleTask"/>
+        <activity android:name=".SaibaMais"
+            android:launchMode="singleTask"/>
         <activity android:name=".Dashboard"
             android:launchMode="singleTask"/>
         <activity android:name=".MainActivity"

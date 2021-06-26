@@ -62,6 +62,10 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
                     case 3:
+                        activity.startActivity(new Intent(activity, SaibaMais.class)
+                                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                        break;
+                    case 4:
 //                       // Fechar app?
                         closeApp();
                         break;

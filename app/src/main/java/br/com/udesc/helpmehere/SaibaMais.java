@@ -10,49 +10,24 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
+public class SaibaMais extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
-    // Decalrando as variáveis
     DrawerLayout drawerLayout;
     ImageView btMenu;
     RecyclerView reciclerView;
-    static ArrayList<String> arrayList = new ArrayList<>();
-    MainAdapter adapter;
-
-    public static void closeDrawer(DrawerLayout drawerLayout) {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        }
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_saiba_mais);
 
-        // Inicializando as variáveis
         drawerLayout = findViewById(R.id.drawer_layout);
         btMenu = findViewById(R.id.bt_menu);
         reciclerView = findViewById(R.id.recycler_view);
 
-        // Limpando a lista
-        arrayList.clear();
+        reciclerView.setLayoutManager( new LinearLayoutManager(this));
 
-        // Adicionando os itens de menu na lista
-        arrayList.add("Home");
-        arrayList.add("Dashboard");
-        arrayList.add("About");
-        arrayList.add("Saiba mais");
-        arrayList.add("Sair");
-
-        // Inicializando Adapter
-        adapter = new MainAdapter(this, arrayList);
-        reciclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        reciclerView.setAdapter(adapter);
+        reciclerView.setAdapter(new MainAdapter(this, MainActivity.arrayList));
 
         btMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,11 +35,12 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        closeDrawer(drawerLayout);
+        MainActivity.closeDrawer(drawerLayout);
     }
 }
