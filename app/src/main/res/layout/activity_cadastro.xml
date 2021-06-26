@@ -19,12 +19,40 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_marginBottom="80dp"
             android:text="Cadastro"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:textStyle="bold"
             android:gravity="center"/>
 
+        <EditText
+            android:id="@+id/edtTextNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:ems="10"
+            android:hint="Informe o seu nome"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/edtTextTelefone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:ems="10"
+            android:hint="Informe o seu telefone"
+            android:inputType="number|text" />
+
+        <EditText
+            android:id="@+id/edtTextCidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:ems="10"
+            android:hint="Informe a sua cidade"
+            android:inputType="text" />
     </LinearLayout>
 
     <RelativeLayout
@@ -37,6 +65,5 @@
             layout="@layout/main_nav_drawer"/>
 
     </RelativeLayout>
-
 
 </androidx.drawerlayout.widget.DrawerLayout>
