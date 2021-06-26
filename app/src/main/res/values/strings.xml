@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">HelpMeHere</string>
+    <string name="app_sair">Sair</string>
+    <string name="app_cancelar">CANCELAR</string>
+    <string name="app_sim">SIM</string>
+    <string name="app_menssagen_sair">Você deseja sair do aplicativo?</string>
+</resources>
