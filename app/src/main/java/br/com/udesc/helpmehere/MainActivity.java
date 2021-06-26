@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Adicionando os itens de menu na lista
         arrayList.add("Home");
-        arrayList.add("Dashboard");
-        arrayList.add("About");
+        arrayList.add("Cadastro");
+        arrayList.add("Orientações");
         arrayList.add("Saiba mais");
         arrayList.add("Sair");
 

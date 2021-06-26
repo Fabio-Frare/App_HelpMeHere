@@ -53,12 +53,12 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                         break;
                     case 1:
                         // Dashboard
-                        activity.startActivity(new Intent(activity, Dashboard.class)
+                        activity.startActivity(new Intent(activity, Cadastro.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
                     case 2:
                         // About
-                        activity.startActivity(new Intent(activity, About.class)
+                        activity.startActivity(new Intent(activity, Orientacoes.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
                     case 3:

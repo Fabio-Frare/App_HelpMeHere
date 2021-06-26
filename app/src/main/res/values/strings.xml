@@ -4,4 +4,16 @@
     <string name="app_cancelar">CANCELAR</string>
     <string name="app_sim">SIM</string>
     <string name="app_menssagen_sair">Você deseja sair do aplicativo?</string>
+    <string name="app_saiba_mais">SAIBA MAIS</string>
+    <string name="app_texto_saiba_mais">Este aplicativo foi criado por:
+        Dênis Diego Marx, Fábio Frare, Renan Russler durante um projeto do
+        curso de Engenharia de Software na Universidade
+        do Estado de Santa Catarina - UDESC.</string>
+    <string name="app_orientacoes">ORIENTAÇÕES</string>
+    <string name="app_texto_orientacoes">Este aplicativo foi criado e
+        disponibilizado de forma gratuíta
+        com a intenção de fornecer
+        informações ao Corpo de Bombeiros
+        de maneira rápida e efciente.</string>
+    <string name="app_slogan">“Dois cliques salva uma vida.”</string>
 </resources>
