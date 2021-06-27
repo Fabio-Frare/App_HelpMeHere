@@ -19,11 +19,25 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:text="Home"
-            android:textSize="50sp"
+            android:textSize="40sp"
             android:textStyle="bold"
             android:gravity="center"/>
+
+        <Button
+            android:id="@+id/btBombeiros"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="60dp"
+            android:height="120dp"
+            android:backgroundTint="@color/red"
+            android:text="Bombeiros"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:cornerRadius="20dp" />
 
     </LinearLayout>
 
