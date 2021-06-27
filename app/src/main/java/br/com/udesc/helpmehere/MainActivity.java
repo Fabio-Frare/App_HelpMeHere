@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView reciclerView;
     static ArrayList<String> arrayList = new ArrayList<>();
     MainAdapter adapter;
+    Button btBombeiros;
 
     public static void closeDrawer(DrawerLayout drawerLayout) {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         btMenu = findViewById(R.id.bt_menu);
         reciclerView = findViewById(R.id.recycler_view);
+        btBombeiros = findViewById(R.id.btBombeiros);
 
         // Limpando a lista
         arrayList.clear();

@@ -29,7 +29,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="30dp"
             android:text="@string/app_texto_saiba_mais"
             android:padding="50dp"
             android:textSize="22sp"
@@ -41,10 +41,25 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/app_slogan"
-            android:padding="30dp"
+            android:padding="10dp"
             android:textSize="25sp"
             android:textStyle="bold"
             android:gravity="center"/>
+
+        <Button
+            android:id="@+id/btSaibaMaisVoltar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:height="80dp"
+            android:backgroundTint="@color/red"
+            android:text="Voltar"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:cornerRadius="20dp" />
 
     </LinearLayout>
 
