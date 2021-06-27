@@ -18,8 +18,11 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     MainAdapter adapter;
     Button btBombeiros;
     ImageView imgFoto;
+    String sFoto;
+    TextView txtBase64;
 
     public static void closeDrawer(DrawerLayout drawerLayout) {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -53,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         reciclerView = findViewById(R.id.recycler_view);
         btBombeiros = findViewById(R.id.btBombeiros);
         imgFoto = findViewById(R.id.idFoto);
+        txtBase64 = findViewById(R.id.txtBase64);
 
         // Limpando a lista
         arrayList.clear();
@@ -111,7 +117,21 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == 1 && resultCode == RESULT_OK) {
             Bitmap foto = (Bitmap) data.getExtras().get("data");
             imgFoto.setImageBitmap(foto);
+            tranformarFotoBase64(foto);
         }
-
     }
+
+    private void tranformarFotoBase64(Bitmap foto) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        foto.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        byte[] bytes = stream.toByteArray();
+        sFoto = Base64.getEncoder().encodeToString(bytes);
+        txtBase64.setText(sFoto);
+//        System.out.println("==============================================");
+//        System.out.println(sFoto);
+//        System.out.println("==================================================");
+    }
+
+
+
 }
