@@ -6,15 +6,25 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class Cadastro extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     ImageView btMenu;
     RecyclerView reciclerView;
+    private EditText edtTextNome, edtTextTelefone, edtTextCidade;
+    private UsuarioDAO dao;
+    private Button btRegistrarCadastro;
+    private TextView textNome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +35,15 @@ public class Cadastro extends AppCompatActivity {
         btMenu = findViewById(R.id.bt_menu);
         reciclerView = findViewById(R.id.recycler_view);
 
-        reciclerView.setLayoutManager( new LinearLayoutManager(this));
+        // campos de cadastro de usuário
+        edtTextNome = findViewById(R.id.edtTextNome);
+        edtTextTelefone = findViewById(R.id.edtTextTelefone);
+        edtTextCidade = findViewById(R.id.edtTextCidade);
+        btRegistrarCadastro = findViewById(R.id.btRegistrarCadastro);
+        textNome = findViewById(R.id.textNome);
+        dao = new UsuarioDAO(this);
 
+        reciclerView.setLayoutManager( new LinearLayoutManager(this));
         reciclerView.setAdapter(new MainAdapter(this, MainActivity.arrayList));
 
         btMenu.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +53,8 @@ public class Cadastro extends AppCompatActivity {
             }
         });
 
+       
+
     }
 
     @Override
@@ -43,4 +62,27 @@ public class Cadastro extends AppCompatActivity {
         super.onPause();
         MainActivity.closeDrawer(drawerLayout);
     }
+
+    public void registrar(View view) {
+        Usuario usuario = new Usuario();
+        usuario.setNome(edtTextNome.getText().toString());
+        usuario.setTelefone(edtTextTelefone.getText().toString());
+        usuario.setCidade(edtTextCidade.getText().toString());
+//        Log.d("Nome: ", usuario.getNome());
+//        Log.d("Id: ", Integer.toString(usuario.getId()));
+        dao.inserir(usuario);
+        atualizarUsuario(usuario);
+        Toast.makeText(this, "Usuário "+ usuario.getId() + " cadastrado com sucesso.", Toast.LENGTH_SHORT).show();
+    }
+    public void atualizarUsuario(Usuario usuario) {
+        // buscar usuário via banco sqlite
+        textNome.setText(usuario.getNome());
+        voltarMainActivity();
+    }
+
+    public void voltarMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
 }

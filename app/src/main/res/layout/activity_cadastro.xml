@@ -21,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:layout_marginBottom="80dp"
             android:text="Cadastro"
             android:textSize="40sp"
             android:textStyle="bold"
@@ -31,29 +30,65 @@
             android:id="@+id/edtTextNome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:ems="10"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:textSize="15dp"
             android:hint="Informe o seu nome"
-            android:inputType="text" />
+            android:inputType="text"/>
 
         <EditText
             android:id="@+id/edtTextTelefone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:ems="10"
+            android:layout_marginHorizontal="20dp"
+            android:textSize="15dp"
             android:hint="Informe o seu telefone"
-            android:inputType="number|text" />
+            android:inputType="text"/>
 
         <EditText
             android:id="@+id/edtTextCidade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:ems="10"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:textSize="15dp"
             android:hint="Informe a sua cidade"
-            android:inputType="text" />
+            android:inputType="text"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="20dp">
+
+            <Button
+                android:id="@+id/btCancelarCadastro"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/grey"
+                android:text="Cancelar"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:cornerRadius="10dp" />
+
+            <Button
+                android:id="@+id/btRegistrarCadastro"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:backgroundTint="@color/red"
+                android:onClick="registrar"
+                android:text="registrar"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:cornerRadius="10dp" />
+
+
+        </LinearLayout>
+
     </LinearLayout>
+
 
     <RelativeLayout
         android:layout_width="300dp"

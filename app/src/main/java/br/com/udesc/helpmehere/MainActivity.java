@@ -16,6 +16,8 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -42,8 +44,10 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,6 +62,10 @@ public class MainActivity extends AppCompatActivity {
     String sFoto;
     TextView txtBase64;
     FusedLocationProviderClient localClient;
+    private Address endereco;
+    private String cidade;
+    private String estado;
+    private String pais;
 
     public static void closeDrawer(DrawerLayout drawerLayout) {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -82,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         imgFoto = findViewById(R.id.idFoto);
         txtBase64 = findViewById(R.id.txtBase64);
         localClient = LocationServices.getFusedLocationProviderClient(this);
+
 
         // Limpando a lista
         arrayList.clear();
@@ -143,15 +152,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         // verifica se o usuário deu permissão para localização.
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // pedido de permissão de localização
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
         }
         localClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
@@ -209,7 +214,21 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 for (Location location: locationResult.getLocations()) {
-                    Log.i("Teste2", location.getLatitude() + "");
+                    //txtBase64.setText("Localização => Latitude: " + location.getLatitude() +" Longitude: " + location.getLongitude());
+
+                    try {
+                        endereco = buscarEndereco(location.getLatitude(), location.getLongitude());
+                        cidade = endereco.getLocality();
+                        estado = endereco.getAdminArea();
+                        pais = endereco.getCountryName();
+
+
+                        txtBase64.setText("Localização => cidade: " + cidade +" estado: " + estado + " País: " + pais);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
                 }
             }
             @Override
@@ -218,11 +237,14 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         localClient.requestLocationUpdates(locationRequest, locationCallback, null);
+
+
     }
 
     // Verificando se o usuário permitiu o uso da câmera
     private void verificarPermissaoCamera() {
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            // Solicita permissão de câmera
             ActivityCompat.requestPermissions(this, new  String[]{Manifest.permission.CAMERA}, 0);
         }
     }
@@ -254,6 +276,17 @@ public class MainActivity extends AppCompatActivity {
 //        System.out.println("==================================================");
     }
 
+    public Address buscarEndereco(double latitude, double longitude) throws IOException {
+        Geocoder geocoder;
+        Address address = null;
+        List<Address> enderecos;
 
+        geocoder = new Geocoder(getApplicationContext());
+        enderecos = geocoder.getFromLocation(latitude, longitude, 1);
+        if(enderecos.size() > 0) {
+            address = enderecos.get(0);
+        }
+        return address;
+    }
 
 }
