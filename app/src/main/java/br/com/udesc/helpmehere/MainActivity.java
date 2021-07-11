@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.common.util.JsonUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
@@ -45,8 +46,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -66,6 +70,10 @@ public class MainActivity extends AppCompatActivity {
     private String cidade;
     private String estado;
     private String pais;
+//    private String atendimento;
+    private Double latitude;
+    private Double longitude;
+    private Atendimento atendimento;
 
     public static void closeDrawer(DrawerLayout drawerLayout) {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -90,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         imgFoto = findViewById(R.id.idFoto);
         txtBase64 = findViewById(R.id.txtBase64);
         localClient = LocationServices.getFusedLocationProviderClient(this);
+        atendimento = new Atendimento();
 
 
         // Limpando a lista
@@ -121,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 tirarFoto();
             }
         });
+
 
     }
 
@@ -176,8 +186,8 @@ public class MainActivity extends AppCompatActivity {
         // Buscar localização mais precisa
         LocationRequest locationRequest = LocationRequest.create();
         // controlar gasto de bateria
-        locationRequest.setInterval(2 * 1000);
-        locationRequest.setFastestInterval(2 * 1000);
+        locationRequest.setInterval(5 * 1000);
+        locationRequest.setFastestInterval(5 * 1000);
         locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
@@ -218,17 +228,14 @@ public class MainActivity extends AppCompatActivity {
 
                     try {
                         endereco = buscarEndereco(location.getLatitude(), location.getLongitude());
-                        cidade = endereco.getLocality();
-                        estado = endereco.getAdminArea();
-                        pais = endereco.getCountryName();
-
-
-                        txtBase64.setText("Localização => cidade: " + cidade +" estado: " + estado + " País: " + pais);
+                        atendimento.setCidade(endereco.getSubAdminArea());
+                        atendimento.setEstado(endereco.getAdminArea());
+                        atendimento.setPais(endereco.getCountryName());
+                        atendimento.setLatitude(location.getLatitude());
+                        atendimento.setLongitude(location.getLongitude());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
-
                 }
             }
             @Override
@@ -237,8 +244,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         localClient.requestLocationUpdates(locationRequest, locationCallback, null);
-
-
     }
 
     // Verificando se o usuário permitiu o uso da câmera
@@ -262,18 +267,15 @@ public class MainActivity extends AppCompatActivity {
             Bitmap foto = (Bitmap) data.getExtras().get("data");
             imgFoto.setImageBitmap(foto);
             tranformarFotoBase64(foto);
+            criarJson();
         }
     }
 
     private void tranformarFotoBase64(Bitmap foto) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        foto.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        foto.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] bytes = stream.toByteArray();
-        sFoto = Base64.getEncoder().encodeToString(bytes);
-//        txtBase64.setText(sFoto);
-//        System.out.println("==============================================");
-//        System.out.println(sFoto);
-//        System.out.println("==================================================");
+        atendimento.setFoto(Base64.getEncoder().encodeToString(bytes));
     }
 
     public Address buscarEndereco(double latitude, double longitude) throws IOException {
@@ -286,7 +288,25 @@ public class MainActivity extends AppCompatActivity {
         if(enderecos.size() > 0) {
             address = enderecos.get(0);
         }
+//        Log.d("Endereço: " ,address.toString());
         return address;
+    }
+
+    public void criarJson() {
+        SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
+        String dataFormatada = data.format(new Date());
+        String horaFormatada = hora.format(new Date());
+        atendimento.setData(dataFormatada);
+        atendimento.setHora(horaFormatada);
+
+        System.out.println(dataFormatada);
+        System.out.println(atendimento.getData());
+        String json = JsonUtils.escapeString(atendimento.toString());
+
+
+        System.out.println(json);
+//        Log.i("Atendimento => ", atendimento);
     }
 
 }
