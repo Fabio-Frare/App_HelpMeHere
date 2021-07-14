@@ -1,7 +1,5 @@
 package br.com.udesc.helpmehere;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Atendimento {
     private String data;

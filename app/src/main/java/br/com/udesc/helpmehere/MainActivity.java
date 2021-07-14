@@ -44,6 +44,9 @@ import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -63,16 +66,9 @@ public class MainActivity extends AppCompatActivity {
     MainAdapter adapter;
     Button btBombeiros;
     ImageView imgFoto;
-    String sFoto;
     TextView txtBase64;
     FusedLocationProviderClient localClient;
     private Address endereco;
-    private String cidade;
-    private String estado;
-    private String pais;
-//    private String atendimento;
-    private Double latitude;
-    private Double longitude;
     private Atendimento atendimento;
 
     public static void closeDrawer(DrawerLayout drawerLayout) {
@@ -99,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         txtBase64 = findViewById(R.id.txtBase64);
         localClient = LocationServices.getFusedLocationProviderClient(this);
         atendimento = new Atendimento();
-
 
         // Limpando a lista
         arrayList.clear();
@@ -267,13 +262,18 @@ public class MainActivity extends AppCompatActivity {
             Bitmap foto = (Bitmap) data.getExtras().get("data");
             imgFoto.setImageBitmap(foto);
             tranformarFotoBase64(foto);
-            criarJson();
+
+            try {
+                criarJson();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private void tranformarFotoBase64(Bitmap foto) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        foto.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        foto.compress(Bitmap.CompressFormat.PNG, 80, stream);
         byte[] bytes = stream.toByteArray();
         atendimento.setFoto(Base64.getEncoder().encodeToString(bytes));
     }
@@ -292,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
         return address;
     }
 
-    public void criarJson() {
+    public void criarJson() throws JSONException {
         SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
         String dataFormatada = data.format(new Date());
@@ -300,13 +300,27 @@ public class MainActivity extends AppCompatActivity {
         atendimento.setData(dataFormatada);
         atendimento.setHora(horaFormatada);
 
-        System.out.println(dataFormatada);
-        System.out.println(atendimento.getData());
-        String json = JsonUtils.escapeString(atendimento.toString());
+        System.out.println("Fabio: " + atendimento.getData());
 
+        JSONObject obj = new JSONObject();
+        obj.put("data", atendimento.getData());
+        obj.put("hora",atendimento.getHora());
+        obj.put("latitude",atendimento.getLatitude());
+        obj.put("longitude",atendimento.getLongitude());
+        obj.put("cidade",atendimento.getCidade());
+        obj.put("estado", atendimento.getEstado());
+        obj.put("pais", atendimento.getPais());
+        obj.put("foto", atendimento.getFoto());
 
-        System.out.println(json);
+        System.out.println(obj.toString());
+//        System.out.println(json);
 //        Log.i("Atendimento => ", atendimento);
+        enviarJsonServidor(obj);
+    }
+
+    public void enviarJsonServidor(JSONObject json) {
+        ClientSocket cs = new ClientSocket();
+        cs.execute(json.toString());
     }
 
 }
