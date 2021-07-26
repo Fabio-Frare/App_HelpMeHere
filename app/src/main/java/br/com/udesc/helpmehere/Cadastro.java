@@ -24,7 +24,7 @@ public class Cadastro extends AppCompatActivity {
     private EditText edtTextNome, edtTextTelefone, edtTextCidade;
     private UsuarioDAO dao;
     private Button btRegistrarCadastro;
-    private TextView textNome;
+    public TextView textNome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,14 +69,18 @@ public class Cadastro extends AppCompatActivity {
         usuario.setTelefone(edtTextTelefone.getText().toString());
         usuario.setCidade(edtTextCidade.getText().toString());
 //        Log.d("Nome: ", usuario.getNome());
-//        Log.d("Id: ", Integer.toString(usuario.getId()));
-        dao.inserir(usuario);
+        Long idUsuario = dao.inserir(usuario);
+        usuario.setId(idUsuario);
         atualizarUsuario(usuario);
+//        Log.d("Id: ", Integer.toString(usuario.getId()));
         Toast.makeText(this, "Usuário "+ usuario.getId() + " cadastrado com sucesso.", Toast.LENGTH_SHORT).show();
     }
+
     public void atualizarUsuario(Usuario usuario) {
         // buscar usuário via banco sqlite
-        textNome.setText(usuario.getNome());
+        String nome = dao.buscarUsuario();
+        Log.i("Nome (cadastro): ", nome);
+        textNome.setText(nome);
         voltarMainActivity();
     }
 

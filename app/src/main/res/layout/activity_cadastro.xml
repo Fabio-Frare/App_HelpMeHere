@@ -43,7 +43,7 @@
             android:layout_marginHorizontal="20dp"
             android:textSize="15dp"
             android:hint="Informe o seu telefone"
-            android:inputType="text"/>
+            android:inputType="number"/>
 
         <EditText
             android:id="@+id/edtTextCidade"

@@ -2,8 +2,8 @@ package br.com.udesc.helpmehere;
 
 
 public class Atendimento {
+    private String usuario;
     private String data;
-    private String hora;
     private Double latitude;
     private Double longitude;
     private String cidade;
@@ -11,6 +11,13 @@ public class Atendimento {
     private String pais;
     private String foto;
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 
     public String getData() {
         return data;
@@ -18,14 +25,6 @@ public class Atendimento {
 
     public void setData(String data) {
         this.data = data;
-    }
-
-    public String getHora() {
-        return hora;
-    }
-
-    public void setHora(String hora) {
-        this.hora = hora;
     }
 
     public Double getLatitude() {
@@ -80,7 +79,6 @@ public class Atendimento {
     public String toString() {
         return "Atendimento{" +
                 "data='" + data + '\'' +
-                ", hora='" + hora + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", cidade='" + cidade + '\'' +
@@ -89,4 +87,5 @@ public class Atendimento {
                 ", foto='" + foto + '\'' +
                 '}';
     }
+
 }

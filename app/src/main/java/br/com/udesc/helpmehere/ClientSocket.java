@@ -18,14 +18,17 @@ public class ClientSocket extends AsyncTask<String,Void,Void> {
         String message = voids[0];
 
         try {
-            s = new Socket("0.tcp.ngrok.io", 16778);
+
+            s = new Socket("0.tcp.ngrok.io", 16451);
             pw = new PrintWriter(s.getOutputStream());
             pw.write(message);
             pw.flush();
             pw.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
+
 }

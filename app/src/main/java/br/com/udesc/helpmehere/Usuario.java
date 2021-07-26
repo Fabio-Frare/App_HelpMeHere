@@ -4,12 +4,18 @@ import java.io.Serializable;
 
 public class Usuario implements Serializable {
 
-    private Integer id;
+    private Long id;
     private String nome;
     private String telefone;
     private String cidade;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public Long getId() {
+        return id;
+    }
 
     public String getNome() {
         return nome;
@@ -35,8 +41,6 @@ public class Usuario implements Serializable {
         this.cidade = cidade;
     }
 
-    public Integer getId() {
-        return id;
-    }
+
 
 }

@@ -58,7 +58,6 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Decalrando as variáveis
     DrawerLayout drawerLayout;
     ImageView btMenu;
     RecyclerView reciclerView;
@@ -68,15 +67,15 @@ public class MainActivity extends AppCompatActivity {
     ImageView imgFoto;
     TextView txtBase64;
     FusedLocationProviderClient localClient;
-    private Address endereco;
-    private Atendimento atendimento;
+    Address endereco;
+    Atendimento atendimento;
+    TextView txtNome;
 
     public static void closeDrawer(DrawerLayout drawerLayout) {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +94,11 @@ public class MainActivity extends AppCompatActivity {
         txtBase64 = findViewById(R.id.txtBase64);
         localClient = LocationServices.getFusedLocationProviderClient(this);
         atendimento = new Atendimento();
+        txtNome = findViewById(R.id.textNome);
+        UsuarioDAO dao = new UsuarioDAO(getApplicationContext());
+        String nome = dao.buscarUsuario();
+        txtNome.setText(nome);
+        atendimento.setUsuario(nome);
 
         // Limpando a lista
         arrayList.clear();
@@ -118,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 drawerLayout.openDrawer(GravityCompat.START);
             }
         });
+
 
         btBombeiros.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
             case ConnectionResult.SERVICE_MISSING:
             case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
             case ConnectionResult.SERVICE_DISABLED:
-                Log.d("Teste", "Google Play Services não instalado ou desatualizado.");
+//                Log.d("Teste", "Google Play Services não instalado ou desatualizado.");
                 GoogleApiAvailability.getInstance().getErrorDialog(this, errorCode, 0, new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialog) {
@@ -153,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 }).show();
                 break;
             case ConnectionResult.SUCCESS:
-                Log.d("Teste", "Google Play Services está atualizado.");
+//                Log.d("Teste", "Google Play Services está atualizado.");
                 break;
         }
         // verifica se o usuário deu permissão para localização.
@@ -167,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Location location) {
                 if(location != null) {
-                    Log.i("Location", location.getLatitude() + " " + location.getLongitude());
+//                    Log.i("Location", location.getLatitude() + " " + location.getLongitude());
                 } else {
                     Log.i("Location", "A localização está nula.");
                 }
@@ -193,9 +198,9 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
 //                        locationSettingsResponse.getLocationSettingsStates().isGpsPresent();
-                        Log.i("Teste", locationSettingsResponse
-                                .getLocationSettingsStates()
-                                .isNetworkLocationPresent() + "");
+//                        Log.i("Teste", locationSettingsResponse
+//                                .getLocationSettingsStates()
+//                                .isNetworkLocationPresent() + "");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -235,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onLocationAvailability( LocationAvailability locationAvailability) {
-                Log.i("Teste", locationAvailability.isLocationAvailable() + "");
+//                Log.i("Teste", locationAvailability.isLocationAvailable() + "");
             }
         };
         localClient.requestLocationUpdates(locationRequest, locationCallback, null);
@@ -293,18 +298,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void criarJson() throws JSONException {
-        SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
-        String dataFormatada = data.format(new Date());
-        String horaFormatada = hora.format(new Date());
-        atendimento.setData(dataFormatada);
-        atendimento.setHora(horaFormatada);
+        atendimento.setData(new Date().toString());
 
-        System.out.println("Fabio: " + atendimento.getData());
+        txtBase64.setText(atendimento.getCidade() + " - " + atendimento.getEstado());
+
+//        System.out.println("Fabio: " + atendimento.getData());
 
         JSONObject obj = new JSONObject();
+        obj.put("usuario", atendimento.getUsuario());
         obj.put("data", atendimento.getData());
-        obj.put("hora",atendimento.getHora());
         obj.put("latitude",atendimento.getLatitude());
         obj.put("longitude",atendimento.getLongitude());
         obj.put("cidade",atendimento.getCidade());
@@ -313,7 +315,6 @@ public class MainActivity extends AppCompatActivity {
         obj.put("foto", atendimento.getFoto());
 
         System.out.println(obj.toString());
-//        System.out.println(json);
 //        Log.i("Atendimento => ", atendimento);
         enviarJsonServidor(obj);
     }

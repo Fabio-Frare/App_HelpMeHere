@@ -52,16 +52,17 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                         .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
                     case 1:
-                        // Dashboard
+                        // Cadastro
                         activity.startActivity(new Intent(activity, Cadastro.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
                     case 2:
-                        // About
+                        // Orientações
                         activity.startActivity(new Intent(activity, Orientacoes.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
                     case 3:
+                        // Saiba mais
                         activity.startActivity(new Intent(activity, SaibaMais.class)
                                 .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
@@ -73,8 +74,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
             }
         });
     }
-
-
 
     @Override
     public int getItemCount() {
